@@ -28,13 +28,13 @@ button { cursor: pointer; }
 .eyebrow, .section-kicker { margin: 0 0 6px; color: var(--accent); font-size: .74rem; font-weight: 850; letter-spacing: .11em; }
 h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.03; letter-spacing: -.035em; }
 .subtitle { max-width: 780px; margin: 10px 0 0; color: var(--muted); line-height: 1.55; }
-.app-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) 280px; column-gap: 28px; row-gap: 18px; align-items: start; }
+.app-grid { display: grid; grid-template-columns: minmax(350px, 1.02fr) minmax(380px, .98fr) 290px; column-gap: 20px; row-gap: 18px; align-items: start; }
 .panel, .result-card, .disclaimer { border: 1px solid var(--border); background: var(--panel); border-radius: 18px; }
 .panel { padding: 22px; }
 .result-card, .disclaimer { padding: 20px; }
 .highlight { background: var(--panel-soft); }
 
-@media (min-width: 1100px) {
+@media (min-width: 1160px) {
   .payment-sidebar {
     position: sticky;
     top: 16px;
@@ -55,8 +55,9 @@ h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.03; letter-s
     font-size: clamp(2.15rem, 3vw, 3.15rem);
   }
 }
-.input-panel, .results-column, .payment-sidebar { min-width: 0; }
-.results-column { display: grid; gap: 16px; overflow: hidden; }
+.input-panel, .results-column, .payment-sidebar { min-width: 0; width: 100%; }
+.results-column { display: grid; gap: 16px; overflow: visible; }
+.results-column > *, .payment-sidebar > * { min-width: 0; max-width: 100%; }
 .section-heading, .card-heading-row, .result-topline, .summary-row, .cash-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .section-heading { margin-bottom: 14px; }
 .section-heading h2, .result-card h2 { margin: 0; font-size: 1.05rem; }
@@ -110,7 +111,24 @@ table { width: 100%; border-collapse: collapse; font-size: .82rem; }
 th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; }
 th { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; }
-.comparison-table { min-width: 620px; }
+.comparison-table { width: 100%; min-width: 0; table-layout: fixed; }
+.comparison-table th,
+.comparison-table td {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+  padding: 9px 6px;
+}
+.comparison-table th:nth-child(1),
+.comparison-table td:nth-child(1) { width: 27%; }
+.comparison-table th:nth-child(2),
+.comparison-table td:nth-child(2) { width: 23%; }
+.comparison-table th:nth-child(3),
+.comparison-table td:nth-child(3) { width: 18%; }
+.comparison-table th:nth-child(4),
+.comparison-table td:nth-child(4) { width: 20%; }
+.comparison-table th:nth-child(5),
+.comparison-table td:nth-child(5) { width: 12%; }
 .comparison-table tbody tr:first-child { background: #fafbfd; }
 .positive { color: var(--green); }
 .negative { color: var(--danger); }
@@ -123,7 +141,7 @@ summary { cursor: pointer; font-weight: 780; }
 .validation { min-height: 18px; margin: 12px 0 0; color: var(--amber); font-size: .8rem; line-height: 1.45; }
 .disclaimer { color: var(--muted); font-size: .79rem; line-height: 1.55; }
 .disclaimer strong { color: var(--text); }
-@media (max-width: 1099px) and (min-width: 941px) {
+@media (max-width: 1159px) and (min-width: 941px) {
   .container { width: min(1240px, calc(100% - 30px)); }
   .app-grid { grid-template-columns: 1fr 1fr; }
   .payment-sidebar { grid-column: 1 / -1; }
@@ -150,4 +168,25 @@ summary { cursor: pointer; font-weight: 780; }
   .app-grid { display: block; }
   .results-column { gap: 10px; }
   .result-card, .disclaimer { break-inside: avoid; }
+}
+.cash-total {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.cash-total span,
+.cash-total strong {
+  min-width: 0;
+}
+.cash-total strong {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.payment-sidebar {
+  width: 100%;
+}
+.payment-sidebar .result-topline {
+  flex-wrap: wrap;
+}
+.payment-sidebar .result-topline .mini-pill {
+  max-width: 100%;
 }
