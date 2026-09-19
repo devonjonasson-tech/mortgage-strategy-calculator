@@ -28,13 +28,13 @@ button { cursor: pointer; }
 .eyebrow, .section-kicker { margin: 0 0 6px; color: var(--accent); font-size: .74rem; font-weight: 850; letter-spacing: .11em; }
 h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.03; letter-spacing: -.035em; }
 .subtitle { max-width: 780px; margin: 10px 0 0; color: var(--muted); line-height: 1.55; }
-.app-grid { display: grid; grid-template-columns: minmax(420px, 1.03fr) minmax(420px, .97fr) minmax(310px, 350px); gap: 20px; align-items: start; }
+.app-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) minmax(290px, 320px); gap: 18px; align-items: start; }
 .panel, .result-card, .disclaimer { border: 1px solid var(--border); background: var(--panel); border-radius: 18px; }
 .panel { padding: 22px; }
 .result-card, .disclaimer { padding: 20px; }
 .highlight { background: var(--panel-soft); }
 
-@media (min-width: 1280px) {
+@media (min-width: 1100px) {
   .payment-sidebar {
     position: sticky;
     top: 16px;
@@ -120,7 +120,7 @@ summary { cursor: pointer; font-weight: 780; }
 .validation { min-height: 18px; margin: 12px 0 0; color: var(--amber); font-size: .8rem; line-height: 1.45; }
 .disclaimer { color: var(--muted); font-size: .79rem; line-height: 1.55; }
 .disclaimer strong { color: var(--text); }
-@media (max-width: 1279px) and (min-width: 941px) {
+@media (max-width: 1099px) and (min-width: 941px) {
   .container { width: min(1240px, calc(100% - 30px)); }
   .app-grid { grid-template-columns: 1fr 1fr; }
   .payment-sidebar { grid-column: 1 / -1; }
