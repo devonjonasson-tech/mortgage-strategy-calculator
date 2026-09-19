@@ -28,7 +28,7 @@ button { cursor: pointer; }
 .eyebrow, .section-kicker { margin: 0 0 6px; color: var(--accent); font-size: .74rem; font-weight: 850; letter-spacing: .11em; }
 h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.03; letter-spacing: -.035em; }
 .subtitle { max-width: 780px; margin: 10px 0 0; color: var(--muted); line-height: 1.55; }
-.app-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) minmax(290px, 320px); gap: 18px; align-items: start; }
+.app-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) 280px; column-gap: 28px; row-gap: 18px; align-items: start; }
 .panel, .result-card, .disclaimer { border: 1px solid var(--border); background: var(--panel); border-radius: 18px; }
 .panel { padding: 22px; }
 .result-card, .disclaimer { padding: 20px; }
@@ -40,6 +40,7 @@ h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.03; letter-s
     top: 16px;
     align-self: start;
     min-width: 0;
+    margin-left: 4px;
   }
 
   .payment-sidebar .result-card {
@@ -54,7 +55,8 @@ h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.03; letter-s
     font-size: clamp(2.15rem, 3vw, 3.15rem);
   }
 }
-.results-column { display: grid; gap: 16px; }
+.input-panel, .results-column, .payment-sidebar { min-width: 0; }
+.results-column { display: grid; gap: 16px; overflow: hidden; }
 .section-heading, .card-heading-row, .result-topline, .summary-row, .cash-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .section-heading { margin-bottom: 14px; }
 .section-heading h2, .result-card h2 { margin: 0; font-size: 1.05rem; }
@@ -103,11 +105,12 @@ hr { margin: 24px 0; border: 0; border-top: 1px solid var(--border); }
 .summary-row { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: .88rem; }
 .cash-total { margin-top: 18px; padding: 15px; border-radius: 12px; background: var(--accent-soft); }
 .cash-total strong { font-size: 1.3rem; }
-.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { width: 100%; border-collapse: collapse; font-size: .82rem; }
 th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; }
 th { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; }
+.comparison-table { min-width: 620px; }
 .comparison-table tbody tr:first-child { background: #fafbfd; }
 .positive { color: var(--green); }
 .negative { color: var(--danger); }
