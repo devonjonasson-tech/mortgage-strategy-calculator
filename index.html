@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Advanced mortgage, temporary buydown, affordability, cash-to-close, and amortization calculator." />
+  <title>Mortgage Strategy Calculator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">BUYER AFFORDABILITY + OFFER STRATEGY</p>
+        <h1>Mortgage Strategy Calculator</h1>
+        <p class="subtitle">Compare loan programs, temporary and permanent rate buydowns, down-payment strategies, cash-to-close, DTI, and early-payoff options in one place.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="printBtn" class="secondary-btn" type="button">Print / Save PDF</button>
+        <button id="resetBtn" class="secondary-btn" type="button">Reset</button>
+      </div>
+    </header>
+
+    <section class="app-grid">
+      <div class="panel input-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">01</p>
+            <h2>Loan & Purchase</h2>
+          </div>
+          <span id="programBadge" class="badge">Conventional</span>
+        </div>
+
+        <div class="form-grid">
+          <label>
+            Loan Program
+            <select id="loanType">
+              <option value="conventional" selected>Conventional</option>
+              <option value="fha">FHA</option>
+              <option value="va">VA</option>
+              <option value="usda">USDA</option>
+              <option value="custom">Custom / Other</option>
+            </select>
+          </label>
+
+          <label>
+            Purchase Price
+            <div class="input-wrap prefix"><span>$</span><input id="price" type="number" min="0" step="1000" value="500000" /></div>
+          </label>
+
+          <label>
+            Down Payment
+            <div class="input-wrap suffix"><input id="downPct" type="number" min="0" max="100" step="0.5" value="10" /><span>%</span></div>
+            <small id="downDollarHint"></small>
+          </label>
+
+          <label>
+            Note Interest Rate
+            <div class="input-wrap suffix"><input id="rate" type="number" min="0" max="30" step="0.125" value="6.5" /><span>%</span></div>
+          </label>
+
+          <label>
+            Loan Term
+            <select id="term">
+              <option value="30" selected>30 years</option>
+              <option value="25">25 years</option>
+              <option value="20">20 years</option>
+              <option value="15">15 years</option>
+              <option value="10">10 years</option>
+            </select>
+          </label>
+
+          <label>
+            Temporary Rate Buydown
+            <select id="buydown">
+              <option value="none">No temporary buydown</option>
+              <option value="1-0">1/0 — 1% lower in Year 1</option>
+              <option value="2-1">2/1 — 2% lower Year 1, 1% lower Year 2</option>
+              <option value="3-2-1">3/2/1 — 3% / 2% / 1% lower in Years 1–3</option>
+            </select>
+          </label>
+
+          <label>
+            Temporary Buydown Funding
+            <select id="buydownFunding">
+              <option value="seller" selected>Seller / lender funds subsidy</option>
+              <option value="buyer">Buyer funds subsidy at closing</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="programOptions" class="program-box">
+          <div id="conventionalOptions" class="program-options">
+            <div class="option-row">
+              <div>
+                <strong>Automatic PMI estimate</strong>
+                <small>Applies PMI below 20% down and estimates scheduled cancellation.</small>
+              </div>
+              <label class="switch"><input id="autoPmi" type="checkbox" checked /><span></span></label>
+            </div>
+            <div class="form-grid compact-grid">
+              <label>
+                Annual PMI Rate
+                <div class="input-wrap suffix"><input id="pmiRate" type="number" min="0" max="5" step="0.05" value="0.50" /><span>%</span></div>
+              </label>
+              <label>
+                PMI Auto-Stop LTV
+                <div class="input-wrap suffix"><input id="pmiStopLtv" type="number" min="50" max="100" step="1" value="78" /><span>%</span></div>
+              </label>
+            </div>
+          </div>
+
+          <div id="fhaOptions" class="program-options hidden">
+            <div class="form-grid compact-grid">
+              <label>
+                FHA Upfront MIP
+                <div class="input-wrap suffix"><input id="fhaUpfront" type="number" min="0" max="10" step="0.05" value="1.75" /><span>%</span></div>
+              </label>
+              <label>
+                FHA MIP Threshold
+                <div class="input-wrap prefix"><span>$</span><input id="fhaThreshold" type="number" min="0" step="1000" value="832750" /></div>
+              </label>
+            </div>
+            <label class="check-line"><input id="financeFhaFee" type="checkbox" checked /> Finance upfront MIP into the loan</label>
+            <small>Annual MIP is estimated automatically from term, LTV, and base-loan threshold.</small>
+          </div>
+
+          <div id="vaOptions" class="program-options hidden">
+            <div class="form-grid compact-grid">
+              <label>
+                VA Use
+                <select id="vaUse"><option value="first" selected>First use</option><option value="subsequent">Subsequent use</option></select>
+              </label>
+              <label class="check-card"><input id="vaExempt" type="checkbox" /> Funding-fee exempt</label>
+            </div>
+            <label class="check-line"><input id="financeVaFee" type="checkbox" checked /> Finance VA funding fee into the loan</label>
+          </div>
+
+          <div id="usdaOptions" class="program-options hidden">
+            <div class="form-grid compact-grid">
+              <label>
+                Upfront Guarantee Fee
+                <div class="input-wrap suffix"><input id="usdaUpfront" type="number" min="0" max="10" step="0.05" value="1.00" /><span>%</span></div>
+              </label>
+              <label>
+                Annual Guarantee Fee
+                <div class="input-wrap suffix"><input id="usdaAnnual" type="number" min="0" max="5" step="0.05" value="0.35" /><span>%</span></div>
+              </label>
+            </div>
+            <label class="check-line"><input id="financeUsdaFee" type="checkbox" checked /> Finance upfront guarantee fee into the loan</label>
+          </div>
+
+          <div id="customOptions" class="program-options hidden">
+            <div class="form-grid compact-grid">
+              <label>
+                Upfront Program Fee
+                <div class="input-wrap suffix"><input id="customUpfront" type="number" min="0" max="20" step="0.05" value="0" /><span>%</span></div>
+              </label>
+              <label>
+                Annual MI / Guarantee Fee
+                <div class="input-wrap suffix"><input id="customAnnual" type="number" min="0" max="10" step="0.05" value="0" /><span>%</span></div>
+              </label>
+            </div>
+            <label class="check-line"><input id="financeCustomFee" type="checkbox" checked /> Finance upfront program fee into the loan</label>
+          </div>
+        </div>
+
+        <hr />
+        <div class="section-heading"><div><p class="section-kicker">02</p><h2>Taxes, Insurance & Housing Costs</h2></div></div>
+        <div class="form-grid">
+          <label>Property Tax Rate / Year<div class="input-wrap suffix"><input id="taxPct" type="number" min="0" max="10" step="0.05" value="1.0" /><span>%</span></div></label>
+          <label>Homeowners Insurance / Year<div class="input-wrap prefix"><span>$</span><input id="insurance" type="number" min="0" step="50" value="1500" /></div></label>
+          <label>HOA / Month<div class="input-wrap prefix"><span>$</span><input id="hoa" type="number" min="0" step="10" value="0" /></div></label>
+          <label>Flood Insurance / Month<div class="input-wrap prefix"><span>$</span><input id="flood" type="number" min="0" step="10" value="0" /></div></label>
+          <label class="full-width">Other Monthly Housing Cost<div class="input-wrap prefix"><span>$</span><input id="otherMonthly" type="number" min="0" step="10" value="0" /></div></label>
+        </div>
+
+        <hr />
+        <div class="section-heading"><div><p class="section-kicker">03</p><h2>Cash to Close & Affordability</h2></div></div>
+        <div class="form-grid">
+          <label>Estimated Closing Costs<div class="input-wrap suffix"><input id="closingPct" type="number" min="0" max="15" step="0.1" value="2.5" /><span>%</span></div></label>
+          <label>Seller / Lender Credits<div class="input-wrap prefix"><span>$</span><input id="credits" type="number" min="0" step="100" value="0" /></div></label>
+          <label>Prepaids & Initial Escrow<div class="input-wrap prefix"><span>$</span><input id="prepaids" type="number" min="0" step="100" value="0" /></div></label>
+          <label>Other Upfront Costs<div class="input-wrap prefix"><span>$</span><input id="otherUpfront" type="number" min="0" step="100" value="0" /></div></label>
+          <label>Gross Household Income / Month<div class="input-wrap prefix"><span>$</span><input id="income" type="number" min="0" step="100" value="10000" /></div></label>
+          <label>Other Monthly Debt Payments<div class="input-wrap prefix"><span>$</span><input id="debts" type="number" min="0" step="50" value="500" /></div></label>
+        </div>
+
+        <hr />
+        <div class="section-heading"><div><p class="section-kicker">04</p><h2>Strategy Comparison</h2></div></div>
+        <div class="form-grid">
+          <label>Permanent Buydown Rate<div class="input-wrap suffix"><input id="permanentRate" type="number" min="0" max="30" step="0.125" value="6.0" /><span>%</span></div></label>
+          <label>Permanent Buydown Points<div class="input-wrap suffix"><input id="permanentPoints" type="number" min="0" max="10" step="0.125" value="1.0" /><span>%</span></div></label>
+          <label>Alternate Larger Down Payment<div class="input-wrap suffix"><input id="altDownPct" type="number" min="0" max="100" step="0.5" value="20" /><span>%</span></div></label>
+          <label>Extra Principal / Month<div class="input-wrap prefix"><span>$</span><input id="extraMonthly" type="number" min="0" step="25" value="0" /></div></label>
+          <label>One-Time Extra Principal<div class="input-wrap prefix"><span>$</span><input id="extraOnce" type="number" min="0" step="100" value="0" /></div></label>
+          <label>Apply One-Time Extra in Month<div class="input-wrap"><input id="extraOnceMonth" type="number" min="1" max="600" step="1" value="12" /></div></label>
+        </div>
+        <p id="validation" class="validation" aria-live="polite"></p>
+      </div>
+
+      <div class="results-column">
+        <section class="result-card highlight">
+          <div class="result-topline"><p class="result-label">Estimated Regular Monthly Payment</p><span id="loanDescriptor" class="mini-pill"></span></div>
+          <div id="fullPayment" class="big-number">$0/mo</div>
+          <p class="muted">Estimated principal, interest, taxes, insurance, program mortgage insurance/guarantee fee, HOA, and other entered housing costs.</p>
+          <div class="stat-grid">
+            <div><span>Base Loan</span><strong id="baseLoan">$0</strong></div>
+            <div><span>Total Financed Loan</span><strong id="loanAmount">$0</strong></div>
+            <div><span>P&I</span><strong id="piPayment">$0/mo</strong></div>
+            <div><span>Taxes</span><strong id="taxPayment">$0/mo</strong></div>
+            <div><span>Insurance</span><strong id="insPayment">$0/mo</strong></div>
+            <div><span>MI / Program Fee</span><strong id="miPayment">$0/mo</strong></div>
+            <div><span>HOA + Other</span><strong id="otherPayment">$0/mo</strong></div>
+            <div><span>Upfront Program Fee</span><strong id="upfrontFeeDisplay">$0</strong></div>
+          </div>
+          <div id="miDuration" class="info-strip"></div>
+        </section>
+
+        <section class="result-card">
+          <div class="card-heading-row"><h2>Temporary Buydown Schedule</h2><span id="buydownName" class="badge">No Buydown</span></div>
+          <div id="buydownRows" class="buydown-rows"></div>
+          <div class="summary-row"><span>Estimated Buydown Subsidy Required</span><strong id="subsidyCost">$0</strong></div>
+        </section>
+
+        <section class="result-card">
+          <h2>Side-by-Side Strategy Comparison</h2>
+          <div class="table-scroll">
+            <table class="comparison-table">
+              <thead><tr><th>Scenario</th><th>Rate / Down</th><th>Monthly Housing</th><th>Est. Cash to Close</th><th>Monthly Δ</th></tr></thead>
+              <tbody id="comparisonBody"></tbody>
+            </table>
+          </div>
+          <p class="muted small-note">Permanent-rate pricing is lender-specific. Enter the actual quoted rate and points to compare accurately.</p>
+        </section>
+
+        <section class="result-card">
+          <h2>Estimated Cash to Close</h2>
+          <div class="stat-grid">
+            <div><span>Down Payment</span><strong id="downDollar">$0</strong></div>
+            <div><span>Closing Costs</span><strong id="closingDollar">$0</strong></div>
+            <div><span>Program Fee Paid at Close</span><strong id="programFeeCash">$0</strong></div>
+            <div><span>Prepaids / Escrow</span><strong id="prepaidDollar">$0</strong></div>
+            <div><span>Other Upfront</span><strong id="otherUpfrontDollar">$0</strong></div>
+            <div><span>Credits</span><strong id="creditDollar">$0</strong></div>
+          </div>
+          <div class="cash-total"><span>Estimated Total Cash to Close</span><strong id="cashClose">$0</strong></div>
+        </section>
+
+        <section class="result-card">
+          <h2>Affordability Snapshot</h2>
+          <div class="stat-grid">
+            <div><span>Housing Ratio</span><strong id="housingRatio">—</strong></div>
+            <div><span>Total DTI</span><strong id="dti">—</strong></div>
+            <div><span>Monthly Income After Housing</span><strong id="incomeAfterHousing">—</strong></div>
+            <div><span>Monthly Income After Housing + Debts</span><strong id="incomeAfterDebts">—</strong></div>
+          </div>
+          <p class="muted small-note">These are planning estimates, not underwriting approvals. Program and lender calculations can differ.</p>
+        </section>
+
+        <section class="result-card">
+          <div class="card-heading-row"><h2>Payoff & Interest Impact</h2><span id="payoffBadge" class="mini-pill"></span></div>
+          <div class="stat-grid">
+            <div><span>Scheduled Payoff</span><strong id="scheduledPayoff">—</strong></div>
+            <div><span>With Extra Payments</span><strong id="extraPayoff">—</strong></div>
+            <div><span>Total Interest — Scheduled</span><strong id="scheduledInterest">$0</strong></div>
+            <div><span>Total Interest — With Extras</span><strong id="extraInterest">$0</strong></div>
+            <div><span>Interest Saved</span><strong id="interestSaved">$0</strong></div>
+            <div><span>Time Saved</span><strong id="timeSaved">—</strong></div>
+          </div>
+          <div class="balance-chart-wrap">
+            <svg id="balanceChart" viewBox="0 0 640 210" role="img" aria-label="Loan balance over time"></svg>
+          </div>
+        </section>
+
+        <section class="result-card">
+          <details open>
+            <summary>First 12 Months Amortization</summary>
+            <div class="table-scroll amortization-wrap">
+              <table class="amortization-table">
+                <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Extra</th><th>Balance</th></tr></thead>
+                <tbody id="amortizationBody"></tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+
+        <aside class="disclaimer">
+          <strong>Planning tool only.</strong> This calculator is not a Loan Estimate or underwriting decision. Taxes, insurance, mortgage insurance, guarantee fees, credits, lender fees, qualifying income, seller-concession limits, rate pricing, and program eligibility can differ. Verify final numbers with the lender and settlement provider.
+        </aside>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
