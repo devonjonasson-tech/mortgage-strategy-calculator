@@ -190,3 +190,26 @@ $("loanType").addEventListener("change",()=>{preset($("loanType").value);showOpt
 $("resetBtn").addEventListener("click",reset);
 $("printBtn").addEventListener("click",()=>window.print());
 loaded?update():reset();
+
+
+let deferredInstallPrompt=null;
+window.addEventListener("beforeinstallprompt",event=>{
+  event.preventDefault();
+  deferredInstallPrompt=event;
+  const btn=$("installBtn");
+  if(btn)btn.hidden=false;
+});
+$("installBtn")?.addEventListener("click",async()=>{
+  if(!deferredInstallPrompt)return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt=null;
+  $("installBtn").hidden=true;
+});
+window.addEventListener("appinstalled",()=>{
+  const btn=$("installBtn");
+  if(btn)btn.hidden=true;
+});
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+}
