@@ -1,0 +1,18 @@
+{
+  "name": "Mortgage Strategy Calculator",
+  "short_name": "Mortgage Calc",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#245d9c",
+  "description": "Mortgage payment, rate buydown, affordability, cash-to-close, and payoff calculator.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
