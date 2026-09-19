@@ -33,6 +33,19 @@ h1 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.03; letter-s
 .panel { padding: 22px; }
 .result-card, .disclaimer { padding: 20px; }
 .highlight { background: var(--panel-soft); }
+
+@media (min-width: 941px) {
+  .results-column {
+    position: relative;
+  }
+
+  .results-column > .highlight {
+    position: sticky;
+    top: 16px;
+    z-index: 5;
+    align-self: start;
+  }
+}
 .results-column { display: grid; gap: 16px; }
 .section-heading, .card-heading-row, .result-topline, .summary-row, .cash-total { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .section-heading { margin-bottom: 14px; }
